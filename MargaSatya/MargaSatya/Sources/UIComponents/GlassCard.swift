@@ -2,12 +2,14 @@
 //  GlassCard.swift
 //  MargaSatya
 //
-//  Liquid Glass UI Components
+//  Liquid Glass UI Components using native SwiftUI
 //
 
 import SwiftUI
 
-/// Glassmorphic card component
+// MARK: - Glass Card
+
+/// Glassmorphic card component using native SwiftUI materials
 struct GlassCard<Content: View>: View {
     let content: Content
 
@@ -17,46 +19,58 @@ struct GlassCard<Content: View>: View {
 
     var body: some View {
         content
-            .padding(24)
-            .background(
-                ZStack {
-                    // Glass effect
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            Color.white.opacity(0.2),
-                                            Color.white.opacity(0.05)
-                                        ]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                        )
-
-                    // Border
-                    RoundedRectangle(cornerRadius: 24, style: .continuous)
-                        .stroke(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.white.opacity(0.5),
-                                    Color.white.opacity(0.1)
-                                ]),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 1
-                        )
-                }
+            .padding(UIConstants.Spacing.extraLarge)
+            .background(glassBackground)
+            .shadow(
+                color: Color.black.opacity(UIConstants.Shadow.opacity),
+                radius: UIConstants.Shadow.radius,
+                x: 0,
+                y: UIConstants.Shadow.yOffset
             )
-            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 10)
+    }
+
+    private var glassBackground: some View {
+        ZStack {
+            // Native material background
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.card, style: .continuous)
+                .fill(.ultraThinMaterial)
+                .overlay(gradientOverlay)
+
+            // Border stroke
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.card, style: .continuous)
+                .stroke(borderGradient, lineWidth: 1)
+        }
+    }
+
+    private var gradientOverlay: some View {
+        RoundedRectangle(cornerRadius: UIConstants.CornerRadius.card, style: .continuous)
+            .fill(
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(UIConstants.Glass.gradientTopOpacity),
+                        Color.white.opacity(UIConstants.Glass.gradientBottomOpacity)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+    }
+
+    private var borderGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color.white.opacity(UIConstants.Glass.strokeTopOpacity),
+                Color.white.opacity(UIConstants.Glass.strokeBottomOpacity)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 }
 
-/// Glass button component
+// MARK: - Glass Button
+
+/// Glass button component using native SwiftUI
 struct GlassButton: View {
     let title: String
     let action: () -> Void
@@ -67,113 +81,116 @@ struct GlassButton: View {
             Text(title)
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color.blue.opacity(isEnabled ? 0.6 : 0.3),
-                                        Color.purple.opacity(isEnabled ? 0.6 : 0.3)
-                                    ]),
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .stroke(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [
-                                        Color.white.opacity(0.5),
-                                        Color.white.opacity(0.2)
-                                    ]),
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 1
-                            )
-                    }
-                )
-                .shadow(color: Color.blue.opacity(isEnabled ? 0.5 : 0.2), radius: 15, x: 0, y: 8)
+                .padding(.vertical, UIConstants.Spacing.regular)
         }
+        .background(buttonBackground)
+        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.regular, style: .continuous))
+        .shadow(
+            color: Color.blue.opacity(isEnabled ? 0.5 : 0.2),
+            radius: 15,
+            x: 0,
+            y: UIConstants.Shadow.yOffset
+        )
         .disabled(!isEnabled)
         .opacity(isEnabled ? 1.0 : 0.6)
     }
+
+    private var buttonBackground: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.regular, style: .continuous)
+                .fill(buttonGradient)
+
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.regular, style: .continuous)
+                .stroke(borderGradient, lineWidth: 1)
+        }
+    }
+
+    private var buttonGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color.blue.opacity(isEnabled ? 0.6 : 0.3),
+                Color.purple.opacity(isEnabled ? 0.6 : 0.3)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    private var borderGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color.white.opacity(UIConstants.Glass.strokeTopOpacity),
+                Color.white.opacity(UIConstants.Glass.gradientTopOpacity)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
 }
 
-/// Glass text field
+// MARK: - Glass TextField
+
+/// Glass text field using native TextField
 struct GlassTextField: View {
     let placeholder: String
     @Binding var text: String
     var icon: String? = nil
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: UIConstants.Spacing.medium) {
             if let icon = icon {
                 Image(systemName: icon)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundStyle(.white.opacity(0.7))
                     .font(.title3)
+                    .imageScale(.medium)
             }
 
-            TextField("", text: $text)
-                .placeholder(when: text.isEmpty) {
-                    Text(placeholder)
-                        .foregroundColor(.white.opacity(0.5))
-                }
-                .foregroundColor(.white)
+            TextField(placeholder, text: $text)
+                .foregroundStyle(.white)
                 .font(.body)
                 .textInputAutocapitalization(.characters)
                 .autocorrectionDisabled(true)
+                .tint(.white)
         }
-        .padding(16)
-        .background(
-            ZStack {
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(.ultraThinMaterial)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(
-                                Color.white.opacity(0.1)
-                            )
-                    )
-
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-            }
-        )
+        .padding(UIConstants.Spacing.regular)
+        .background(textFieldBackground)
     }
-}
 
-// Helper extension for placeholder
-extension View {
-    func placeholder<Content: View>(
-        when shouldShow: Bool,
-        alignment: Alignment = .leading,
-        @ViewBuilder placeholder: () -> Content
-    ) -> some View {
-        ZStack(alignment: alignment) {
-            placeholder().opacity(shouldShow ? 1 : 0)
-            self
+    private var textFieldBackground: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.medium, style: .continuous)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: UIConstants.CornerRadius.medium, style: .continuous)
+                        .fill(Color.white.opacity(0.1))
+                )
+
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.medium, style: .continuous)
+                .stroke(Color.white.opacity(UIConstants.Glass.borderOpacity), lineWidth: 1)
         }
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("Glass Components") {
     ZStack {
         GlassBackground()
 
-        VStack(spacing: 20) {
+        VStack(spacing: UIConstants.Spacing.large) {
             GlassCard {
-                VStack(spacing: 16) {
+                VStack(spacing: UIConstants.Spacing.regular) {
                     Text("Glass Card")
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                         .font(.title)
 
-                    GlassTextField(placeholder: "Enter code", text: .constant(""), icon: "lock.fill")
+                    GlassTextField(
+                        placeholder: "Enter code",
+                        text: .constant(""),
+                        icon: "lock.fill"
+                    )
 
                     GlassButton(title: "Start Exam", action: {})
                 }

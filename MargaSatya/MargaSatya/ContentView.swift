@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    // MARK: - Properties
+
     @StateObject private var examSession = ExamSession()
     @State private var currentScreen: ExamScreen = .codeInput
     @State private var shouldPrepareExam = false
@@ -15,46 +17,31 @@ struct ContentView: View {
     @State private var shouldCompleteExam = false
     @State private var shouldReturnHome = false
 
+    // Dependency injection container
+    private let container = DIContainer.shared
+
+    // MARK: - Body
+
     var body: some View {
         ZStack {
             switch currentScreen {
             case .codeInput:
-                ExamCodeInputView(
-                    examSession: Binding(
-                        get: { currentScreen == .preparation ? examSession : nil },
-                        set: { newSession in
-                            if let session = newSession {
-                                examSession.examId = session.examId
-                                examSession.examUrl = session.examUrl
-                                examSession.examTitle = session.examTitle
-                                examSession.duration = session.duration
-                                examSession.lockMode = session.lockMode
-                            }
-                        }
-                    ),
-                    shouldPrepareExam: $shouldPrepareExam
-                )
-                .transition(.opacity)
+                codeInputView
+                    .transition(.opacity)
 
             case .preparation:
-                ExamPreparationView(
-                    examSession: examSession,
-                    shouldStartExam: $shouldStartExam
-                )
-                .transition(.asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal: .move(edge: .leading).combined(with: .opacity)
-                ))
+                preparationView
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
 
             case .exam:
-                SecureExamView(
-                    examSession: examSession,
-                    shouldCompleteExam: $shouldCompleteExam
-                )
-                .transition(.asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal: .move(edge: .leading).combined(with: .opacity)
-                ))
+                examView
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
 
             case .completed:
                 ExamCompletedView(shouldReturnHome: $shouldReturnHome)
@@ -64,7 +51,7 @@ struct ContentView: View {
                     ))
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: currentScreen)
+        .animation(.easeInOut(duration: AppConfiguration.UI.transitionDuration), value: currentScreen)
         .onChange(of: shouldPrepareExam) { _, shouldPrepare in
             if shouldPrepare {
                 currentScreen = .preparation
@@ -103,6 +90,41 @@ struct ContentView: View {
         examSession.duration = 0
         examSession.lockMode = false
         examSession.isActive = false
+    }
+
+    // MARK: - View Builders
+
+    private var codeInputView: some View {
+        ExamCodeInputView(
+            viewModel: container.makeExamCodeInputViewModel(),
+            examSession: Binding(
+                get: { currentScreen == .preparation ? examSession : nil },
+                set: { newSession in
+                    if let session = newSession {
+                        examSession.examId = session.examId
+                        examSession.examUrl = session.examUrl
+                        examSession.examTitle = session.examTitle
+                        examSession.duration = session.duration
+                        examSession.lockMode = session.lockMode
+                    }
+                }
+            ),
+            shouldPrepareExam: $shouldPrepareExam
+        )
+    }
+
+    private var preparationView: some View {
+        ExamPreparationView(
+            viewModel: container.makeExamPreparationViewModel(examSession: examSession),
+            shouldStartExam: $shouldStartExam
+        )
+    }
+
+    private var examView: some View {
+        SecureExamView(
+            viewModel: container.makeSecureExamViewModel(examSession: examSession),
+            shouldCompleteExam: $shouldCompleteExam
+        )
     }
 }
 

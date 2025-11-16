@@ -8,26 +8,25 @@
 import SwiftUI
 
 struct SecureExamView: View {
-    @ObservedObject var examSession: ExamSession
+    @StateObject var viewModel: SecureExamViewModel
     @Binding var shouldCompleteExam: Bool
-    @State private var isLoading = false
-    @State private var loadError: String?
-    @State private var showAdminOverride = false
-    @State private var adminPIN = ""
-    @State private var tapCount = 0
-    @State private var lastTapTime = Date()
 
-    // Timer for countdown
-    @State private var timer: Timer?
+    init(
+        viewModel: SecureExamViewModel,
+        shouldCompleteExam: Binding<Bool>
+    ) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._shouldCompleteExam = shouldCompleteExam
+    }
 
     var body: some View {
         ZStack {
             // WebView
-            if let url = URL(string: examSession.examUrl) {
+            if let url = URL(string: viewModel.examSession.examUrl) {
                 SecureWebView(
                     url: url,
-                    isLoading: $isLoading,
-                    loadError: $loadError,
+                    isLoading: $viewModel.isLoading,
+                    loadError: $viewModel.loadError,
                     onComplete: {
                         completeExam()
                     }
@@ -40,11 +39,11 @@ struct SecureExamView: View {
                 HStack {
                     // Exam Title
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(examSession.examTitle)
+                        Text(viewModel.examSession.examTitle)
                             .font(.headline)
                             .foregroundColor(.white)
 
-                        Text("Exam ID: \(examSession.examId)")
+                        Text("Exam ID: \(viewModel.examSession.examId)")
                             .font(.caption2)
                             .foregroundColor(.white.opacity(0.8))
                     }
@@ -52,16 +51,16 @@ struct SecureExamView: View {
                     Spacer()
 
                     // Timer
-                    if examSession.isActive {
+                    if viewModel.examSession.isActive {
                         HStack(spacing: 6) {
                             Image(systemName: "clock.fill")
                                 .font(.caption)
 
-                            Text(timeString(from: examSession.timeRemaining))
+                            Text(timeString(from: viewModel.examSession.timeRemaining))
                                 .font(.system(.body, design: .monospaced))
                                 .fontWeight(.semibold)
                         }
-                        .foregroundColor(examSession.timeRemaining < 300 ? .red : .white)
+                        .foregroundColor(viewModel.examSession.timeRemaining < 300 ? .red : .white)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 8)
                         .background(
@@ -230,9 +229,9 @@ struct SecureExamView: View {
     // MARK: - Helper Functions
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            examSession.updateTimeRemaining()
+            viewModel.examSession.updateTimeRemaining()
 
-            if examSession.isExpired {
+            if viewModel.examSession.isExpired {
                 completeExam()
             }
         }
@@ -265,7 +264,7 @@ struct SecureExamView: View {
 
     private func completeExam() {
         stopTimer()
-        examSession.end()
+        viewModel.examSession.end()
         shouldCompleteExam = true
 
         // End assessment mode

@@ -2,25 +2,30 @@
 //  AssessmentModeManager.swift
 //  MargaSatya
 //
-//  Secure Exam Browser - iOS
+//  Assessment Mode Manager implementation
 //
 
 import Foundation
 import AutomaticAssessmentConfiguration
 
-/// Manager for controlling Assessment Mode using AAC
-class AssessmentModeManager: ObservableObject {
-    static let shared = AssessmentModeManager()
+/// Implementation of AssessmentModeServiceProtocol using AAC
+final class AssessmentModeManager: AssessmentModeServiceProtocol, ObservableObject {
+    // MARK: - Published Properties
 
     @Published var isInAssessmentMode = false
     @Published var assessmentError: AssessmentError?
 
+    // MARK: - Private Properties
+
     private var session: AEAssessmentSession?
     private var configuration: AEAssessmentConfiguration?
 
-    private init() {}
+    // MARK: - Initialization
 
-    /// Check if assessment mode is available on this device
+    init() {}
+
+    // MARK: - AssessmentModeServiceProtocol
+
     var isAssessmentModeAvailable: Bool {
         return true // AAC is available on iOS 13.4+
     }

@@ -2,34 +2,46 @@
 //  ExamAPIService.swift
 //  MargaSatya
 //
-//  Secure Exam Browser - iOS
+//  Production API service for exam operations
 //
 
 import Foundation
 
-/// API service for exam operations
-class ExamAPIService {
-    static let shared = ExamAPIService()
+/// Production implementation of ExamAPIServiceProtocol
+final class ExamAPIService: ExamAPIServiceProtocol {
+    // MARK: - Properties
 
-    // TODO: Replace with actual backend URL
-    private let baseURL = "https://api.margasatya.com"
+    private let baseURL: String
+    private let session: URLSession
+    private let timeout: TimeInterval
 
-    private init() {}
+    // MARK: - Initialization
 
-    /// Validate exam code and retrieve exam configuration
+    init(
+        baseURL: String = AppConfiguration.API.baseURL,
+        session: URLSession = .shared,
+        timeout: TimeInterval = AppConfiguration.API.timeout
+    ) {
+        self.baseURL = baseURL
+        self.session = session
+        self.timeout = timeout
+    }
+
+    // MARK: - ExamAPIServiceProtocol
+
     func resolveExamCode(_ code: String) async throws -> ExamResponse {
-        guard let url = URL(string: "\(baseURL)/exam/resolve-code") else {
+        guard let url = URL(string: "\(baseURL)\(AppConfiguration.API.Endpoints.resolveExamCode)") else {
             throw ExamAPIError.invalidURL
         }
 
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url, timeoutInterval: timeout)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let requestBody = ExamCodeRequest(code: code)
         request.httpBody = try JSONEncoder().encode(requestBody)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw ExamAPIError.invalidResponse
@@ -49,15 +61,24 @@ class ExamAPIService {
             throw ExamAPIError.decodingError(error)
         }
     }
+}
 
-    // MARK: - Mock Data for Development
-    /// Mock resolve exam code for testing (remove in production)
-    func mockResolveExamCode(_ code: String) async throws -> ExamResponse {
+// MARK: - Mock API Service
+
+/// Mock implementation for development/testing
+final class MockExamAPIService: ExamAPIServiceProtocol {
+    private let mockDelay: UInt64
+
+    init(mockDelay: UInt64 = 1_000_000_000) { // 1 second default
+        self.mockDelay = mockDelay
+    }
+
+    func resolveExamCode(_ code: String) async throws -> ExamResponse {
         // Simulate network delay
-        try await Task.sleep(nanoseconds: 1_000_000_000) // 1 second
+        try await Task.sleep(nanoseconds: mockDelay)
 
-        // Validate code format (simple validation)
-        guard !code.isEmpty, code.count >= 3 else {
+        // Validate code format
+        guard !code.isEmpty, code.count >= AppConfiguration.UI.minExamCodeLength else {
             throw ExamAPIError.invalidCode
         }
 

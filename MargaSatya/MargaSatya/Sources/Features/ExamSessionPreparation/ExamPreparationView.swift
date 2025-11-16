@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ExamPreparationView: View {
-    @ObservedObject var examSession: ExamSession
+    @StateObject var viewModel: ExamPreparationViewModel
     @Binding var shouldStartExam: Bool
-    @StateObject private var assessmentManager = AssessmentModeManager.shared
-    @State private var isPreparingAssessment = false
-    @State private var showError = false
-    @State private var errorMessage = ""
+
+    init(
+        viewModel: ExamPreparationViewModel,
+        shouldStartExam: Binding<Bool>
+    ) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._shouldStartExam = shouldStartExam
+    }
 
     var body: some View {
         ZStack {
@@ -99,13 +103,13 @@ struct ExamPreparationView: View {
 
                         // Start Button
                         GlassButton(
-                            title: isPreparingAssessment ? "Preparing..." : "Start Exam",
+                            title: viewModel.isPreparingAssessment ? "Preparing..." : "Start Exam",
                             action: {
                                 Task {
-                                    await startExam()
+                                    await viewModel.startExam()
                                 }
                             },
-                            isEnabled: !isPreparingAssessment
+                            isEnabled: !viewModel.isPreparingAssessment
                         )
                     }
                 }
@@ -114,38 +118,15 @@ struct ExamPreparationView: View {
                 Spacer()
             }
         }
-        .alert("Assessment Mode Error", isPresented: $showError) {
+        .alert("Assessment Mode Error", isPresented: $viewModel.showError) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text(errorMessage)
+            Text(viewModel.errorMessage)
         }
-    }
-
-    private func startExam() async {
-        isPreparingAssessment = true
-
-        // Start assessment mode if lockMode is enabled
-        if examSession.lockMode {
-            do {
-                try await assessmentManager.startAssessmentMode()
-
-                // Wait a moment for assessment mode to fully activate
-                try await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
-
-                // Start exam session
-                examSession.start()
-
-                // Navigate to exam
+        .onChange(of: viewModel.shouldStartExam) { _, shouldStart in
+            if shouldStart {
                 shouldStartExam = true
-            } catch {
-                errorMessage = error.localizedDescription
-                showError = true
-                isPreparingAssessment = false
             }
-        } else {
-            // Start exam without assessment mode
-            examSession.start()
-            shouldStartExam = true
         }
     }
 }

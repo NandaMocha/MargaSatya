@@ -9,13 +9,25 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class ExamCodeInputViewModel: ObservableObject {
+final class ExamCodeInputViewModel: ObservableObject {
+    // MARK: - Published Properties
+
     @Published var examCode: String = ""
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var validatedSession: ExamSession?
 
-    private let apiService = ExamAPIService.shared
+    // MARK: - Dependencies
+
+    private let apiService: ExamAPIServiceProtocol
+
+    // MARK: - Initialization
+
+    init(apiService: ExamAPIServiceProtocol) {
+        self.apiService = apiService
+    }
+
+    // MARK: - Public Methods
 
     /// Validate the exam code
     func validateCode() async {
@@ -30,19 +42,20 @@ class ExamCodeInputViewModel: ObservableObject {
         guard !code.isEmpty else {
             errorMessage = "Please enter an exam code"
             isLoading = false
+            triggerErrorFeedback()
             return
         }
 
-        guard code.count >= 3 else {
-            errorMessage = "Exam code must be at least 3 characters"
+        guard code.count >= AppConfiguration.UI.minExamCodeLength else {
+            errorMessage = "Exam code must be at least \(AppConfiguration.UI.minExamCodeLength) characters"
             isLoading = false
+            triggerErrorFeedback()
             return
         }
 
         do {
             // Call API to validate code
-            // For development, using mock API
-            let response = try await apiService.mockResolveExamCode(code)
+            let response = try await apiService.resolveExamCode(code)
 
             // Create exam session
             let session = ExamSession(from: response)
@@ -52,15 +65,11 @@ class ExamCodeInputViewModel: ObservableObject {
         } catch let error as ExamAPIError {
             errorMessage = error.errorDescription
             isLoading = false
-
-            // Add haptic feedback for error
-            #if os(iOS)
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.error)
-            #endif
+            triggerErrorFeedback()
         } catch {
             errorMessage = "An unexpected error occurred"
             isLoading = false
+            triggerErrorFeedback()
         }
     }
 
@@ -70,5 +79,16 @@ class ExamCodeInputViewModel: ObservableObject {
         errorMessage = nil
         validatedSession = nil
         isLoading = false
+    }
+
+    // MARK: - Private Methods
+
+    private func triggerErrorFeedback() {
+        guard AppConfiguration.Features.hapticFeedbackEnabled else { return }
+
+        #if os(iOS)
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.error)
+        #endif
     }
 }

@@ -8,9 +8,19 @@
 import SwiftUI
 
 struct ExamCodeInputView: View {
-    @StateObject private var viewModel = ExamCodeInputViewModel()
+    @StateObject var viewModel: ExamCodeInputViewModel
     @Binding var examSession: ExamSession?
     @Binding var shouldPrepareExam: Bool
+
+    init(
+        viewModel: ExamCodeInputViewModel,
+        examSession: Binding<ExamSession?>,
+        shouldPrepareExam: Binding<Bool>
+    ) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._examSession = examSession
+        self._shouldPrepareExam = shouldPrepareExam
+    }
 
     var body: some View {
         ZStack {
@@ -18,13 +28,13 @@ struct ExamCodeInputView: View {
             GlassBackground()
 
             // Content
-            VStack(spacing: 40) {
+            VStack(spacing: UIConstants.Spacing.massive) {
                 Spacer()
 
                 // Logo / Title
-                VStack(spacing: 12) {
+                VStack(spacing: UIConstants.Spacing.medium) {
                     Image(systemName: "shield.checkered")
-                        .font(.system(size: 70))
+                        .font(.system(size: UIConstants.IconSize.massive))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [.blue, .purple],
@@ -32,25 +42,26 @@ struct ExamCodeInputView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .shadow(color: .blue.opacity(0.5), radius: 20)
+                        .shadow(color: .blue.opacity(0.5), radius: UIConstants.Shadow.radius)
+                        .symbolRenderingMode(.hierarchical)
 
-                    Text("MargaSatya")
+                    Text(AppConfiguration.Info.name)
                         .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
 
-                    Text("Secure Exam Browser")
+                    Text(AppConfiguration.Info.tagline)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundStyle(.white.opacity(0.7))
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, UIConstants.Spacing.large)
 
                 // Input Card
                 GlassCard {
-                    VStack(spacing: 20) {
+                    VStack(spacing: UIConstants.Spacing.large) {
                         Text("Enter Exam Code")
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
                         GlassTextField(
@@ -60,19 +71,7 @@ struct ExamCodeInputView: View {
                         )
 
                         if let errorMessage = viewModel.errorMessage {
-                            HStack(spacing: 8) {
-                                Image(systemName: "exclamationmark.triangle.fill")
-                                Text(errorMessage)
-                                    .font(.caption)
-                            }
-                            .foregroundColor(.red.opacity(0.9))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.red.opacity(0.2))
-                            )
-                            .transition(.scale.combined(with: .opacity))
+                            errorMessageView(errorMessage)
                         }
 
                         GlassButton(
@@ -86,16 +85,16 @@ struct ExamCodeInputView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, UIConstants.Spacing.huge)
                 .sensoryFeedback(.impact, trigger: viewModel.errorMessage)
 
                 Spacer()
 
                 // Footer
-                Text("v1.0 • iOS Secure Exam")
+                Text("v\(AppConfiguration.Info.version) • iOS Secure Exam")
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(0.5))
-                    .padding(.bottom, 20)
+                    .foregroundStyle(.white.opacity(0.5))
+                    .padding(.bottom, UIConstants.Spacing.large)
             }
         }
         .onChange(of: viewModel.validatedSession) { _, newSession in
@@ -105,10 +104,33 @@ struct ExamCodeInputView: View {
             }
         }
     }
+
+    // MARK: - Helper Views
+
+    @ViewBuilder
+    private func errorMessageView(_ message: String) -> some View {
+        HStack(spacing: UIConstants.Spacing.small) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .imageScale(.small)
+            Text(message)
+                .font(.caption)
+        }
+        .foregroundStyle(.red.opacity(0.9))
+        .padding(.horizontal, UIConstants.Spacing.medium)
+        .padding(.vertical, UIConstants.Spacing.small)
+        .background(
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.small, style: .continuous)
+                .fill(Color.red.opacity(0.2))
+        )
+        .transition(.scale.combined(with: .opacity))
+    }
 }
+
+// MARK: - Preview
 
 #Preview {
     ExamCodeInputView(
+        viewModel: DIContainer.shared.makeExamCodeInputViewModel(),
         examSession: .constant(nil),
         shouldPrepareExam: .constant(false)
     )
