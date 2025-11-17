@@ -56,7 +56,7 @@ struct ExamPreparationView: View {
                                 Label("Duration", systemImage: "clock.fill")
                                     .foregroundColor(.white.opacity(0.8))
                                 Spacer()
-                                Text("\(examSession.duration) minutes")
+                                Text("\(viewModel.examSession.duration) minutes")
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                             }
@@ -149,14 +149,16 @@ struct InstructionRow: View {
 }
 
 #Preview {
-    ExamPreparationView(
-        examSession: ExamSession(
-            examId: "EX001",
-            examUrl: "https://example.com",
-            examTitle: "Ujian Akhir Semester",
-            duration: 60,
-            lockMode: true
-        ),
+    let examSession = ExamSession(
+        examId: "EX001",
+        examUrl: "https://example.com",
+        examTitle: "Ujian Akhir Semester",
+        duration: 60,
+        lockMode: true
+    )
+
+    return ExamPreparationView(
+        viewModel: DIContainer.shared.makeExamPreparationViewModel(examSession: examSession),
         shouldStartExam: .constant(false)
     )
 }

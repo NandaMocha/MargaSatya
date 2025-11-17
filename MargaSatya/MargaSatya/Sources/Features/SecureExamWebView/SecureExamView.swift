@@ -52,6 +52,7 @@ struct SecureExamView: View {
                 url: url,
                 isLoading: $viewModel.isLoading,
                 loadError: $viewModel.loadError,
+                reloadTrigger: $viewModel.reloadTrigger,
                 onComplete: {
                     viewModel.completeExam()
                 }
@@ -187,7 +188,7 @@ struct SecureExamView: View {
                         .multilineTextAlignment(.center)
 
                     GlassButton(title: "Retry", action: {
-                        viewModel.loadError = nil
+                        viewModel.retryLoad()
                     })
                     .frame(width: 200)
                 }

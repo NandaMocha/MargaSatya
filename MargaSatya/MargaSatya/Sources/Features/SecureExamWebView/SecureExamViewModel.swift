@@ -17,6 +17,7 @@ final class SecureExamViewModel: ObservableObject {
     @Published var showAdminOverride = false
     @Published var adminPIN = ""
     @Published var shouldCompleteExam = false
+    @Published var reloadTrigger = false
 
     // MARK: - Dependencies
 
@@ -98,11 +99,17 @@ final class SecureExamViewModel: ObservableObject {
 
         assessmentService.forceEndAssessment()
         completeExam()
+        cancelAdminOverride()
     }
 
     func cancelAdminOverride() {
         showAdminOverride = false
         adminPIN = ""
+    }
+
+    func retryLoad() {
+        loadError = nil
+        reloadTrigger.toggle()
     }
 
     // MARK: - Helper Methods

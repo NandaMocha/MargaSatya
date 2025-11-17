@@ -50,6 +50,7 @@ final class ExamPreparationViewModel: ObservableObject {
 
                 // Navigate to exam
                 shouldStartExam = true
+                isPreparingAssessment = false
             } catch {
                 errorMessage = error.localizedDescription
                 showError = true
@@ -59,6 +60,7 @@ final class ExamPreparationViewModel: ObservableObject {
             // Start exam without assessment mode
             examSession.start()
             shouldStartExam = true
+            isPreparingAssessment = false
         }
     }
 }
