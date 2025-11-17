@@ -13,10 +13,20 @@ import SwiftUI
 class SecureWebViewCoordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
     var parent: SecureWebView
     var onComplete: (() -> Void)?
+    var shouldReload = false
+    private var lastReloadTrigger = false
 
     init(_ parent: SecureWebView, onComplete: (() -> Void)? = nil) {
         self.parent = parent
         self.onComplete = onComplete
+        self.lastReloadTrigger = parent.reloadTrigger
+    }
+
+    func checkReloadTrigger() {
+        if parent.reloadTrigger != lastReloadTrigger {
+            shouldReload = true
+            lastReloadTrigger = parent.reloadTrigger
+        }
     }
 
     // MARK: - WKNavigationDelegate
@@ -127,6 +137,7 @@ struct SecureWebView: UIViewRepresentable {
     let url: URL
     @Binding var isLoading: Bool
     @Binding var loadError: String?
+    @Binding var reloadTrigger: Bool
     var onComplete: (() -> Void)?
 
     func makeUIView(context: Context) -> WKWebView {
@@ -154,9 +165,14 @@ struct SecureWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
-        if webView.url == nil {
+        // Check if reload was triggered
+        context.coordinator.checkReloadTrigger()
+
+        // Load initially or when reload is triggered
+        if webView.url == nil || context.coordinator.shouldReload {
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
             webView.load(request)
+            context.coordinator.shouldReload = false
         }
     }
 

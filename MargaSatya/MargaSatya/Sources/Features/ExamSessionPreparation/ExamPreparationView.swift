@@ -41,7 +41,7 @@ struct ExamPreparationView: View {
                             )
 
                         // Title
-                        Text(examSession.examTitle)
+                        Text(viewModel.examSession.examTitle)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -56,7 +56,7 @@ struct ExamPreparationView: View {
                                 Label("Duration", systemImage: "clock.fill")
                                     .foregroundColor(.white.opacity(0.8))
                                 Spacer()
-                                Text("\(examSession.duration) minutes")
+                                Text("\(viewModel.examSession.duration) minutes")
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                             }
@@ -65,12 +65,12 @@ struct ExamPreparationView: View {
                                 Label("Exam ID", systemImage: "number.circle.fill")
                                     .foregroundColor(.white.opacity(0.8))
                                 Spacer()
-                                Text(examSession.examId)
+                                Text(viewModel.examSession.examId)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                             }
 
-                            if examSession.lockMode {
+                            if viewModel.examSession.lockMode {
                                 HStack {
                                     Label("Lock Mode", systemImage: "lock.shield.fill")
                                         .foregroundColor(.white.opacity(0.8))
@@ -149,14 +149,16 @@ struct InstructionRow: View {
 }
 
 #Preview {
-    ExamPreparationView(
-        examSession: ExamSession(
-            examId: "EX001",
-            examUrl: "https://example.com",
-            examTitle: "Ujian Akhir Semester",
-            duration: 60,
-            lockMode: true
-        ),
+    let examSession = ExamSession(
+        examId: "EX001",
+        examUrl: "https://example.com",
+        examTitle: "Ujian Akhir Semester",
+        duration: 60,
+        lockMode: true
+    )
+
+    return ExamPreparationView(
+        viewModel: DIContainer.shared.makeExamPreparationViewModel(examSession: examSession),
         shouldStartExam: .constant(false)
     )
 }

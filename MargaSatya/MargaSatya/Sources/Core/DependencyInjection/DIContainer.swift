@@ -1,6 +1,6 @@
 //
 //  DIContainer.swift
-//  MargaSatya
+//  SecureExamID
 //
 //  Dependency Injection Container
 //
@@ -12,15 +12,77 @@ final class DIContainer {
     /// Shared instance
     static let shared = DIContainer()
 
-    // MARK: - Services
+    // MARK: - Core Services
 
-    private(set) lazy var apiService: ExamAPIServiceProtocol = {
+    private(set) lazy var encryptionService: EncryptionServiceProtocol = {
         if AppConfiguration.Features.isDevelopmentMode {
-            return MockExamAPIService()
+            return MockEncryptionService()
         } else {
-            return ExamAPIService(baseURL: AppConfiguration.API.baseURL)
+            return EncryptionService()
         }
     }()
+
+    private(set) lazy var networkMonitor: NetworkMonitorProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockNetworkMonitor()
+        } else {
+            let monitor = NetworkMonitor()
+            monitor.startMonitoring()
+            return monitor
+        }
+    }()
+
+    // MARK: - Firestore Services
+
+    private(set) lazy var authService: AuthServiceProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockAuthService()
+        } else {
+            return FirebaseAuthService()
+        }
+    }()
+
+    private(set) lazy var studentService: StudentServiceProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockStudentService()
+        } else {
+            return FirestoreStudentService()
+        }
+    }()
+
+    private(set) lazy var examService: ExamServiceProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockExamService()
+        } else {
+            return FirestoreExamService()
+        }
+    }()
+
+    private(set) lazy var sessionService: ExamSessionServiceProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockSessionService()
+        } else {
+            return FirestoreSessionService()
+        }
+    }()
+
+    private(set) lazy var answerService: ExamAnswerServiceProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockAnswerService()
+        } else {
+            return FirestoreAnswerService()
+        }
+    }()
+
+    private(set) lazy var adminService: AdminServiceProtocol = {
+        if AppConfiguration.Features.isDevelopmentMode {
+            return MockAdminService()
+        } else {
+            return FirestoreAdminService()
+        }
+    }()
+
+    // MARK: - Legacy Services (to be removed)
 
     private(set) lazy var assessmentService: any AssessmentModeServiceProtocol = {
         return AssessmentModeManager()
@@ -28,12 +90,17 @@ final class DIContainer {
 
     private init() {}
 
-    // MARK: - Factory Methods
+    // MARK: - Auth ViewModels
 
-    /// Create ExamCodeInputViewModel with dependencies
-    func makeExamCodeInputViewModel() -> ExamCodeInputViewModel {
-        return ExamCodeInputViewModel(apiService: apiService)
+    func makeTeacherAuthViewModel() -> TeacherAuthViewModel {
+        return TeacherAuthViewModel(authService: authService)
     }
+
+    func makeAdminAuthViewModel() -> AdminAuthViewModel {
+        return AdminAuthViewModel(authService: authService)
+    }
+
+    // MARK: - Legacy Factory Methods (to be refactored)
 
     /// Create ExamPreparationViewModel with dependencies
     func makeExamPreparationViewModel(examSession: ExamSession) -> ExamPreparationViewModel {
