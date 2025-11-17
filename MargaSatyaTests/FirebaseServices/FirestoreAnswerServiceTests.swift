@@ -427,7 +427,12 @@ struct FirestoreAnswerServiceTests {
         )
 
         // Assert
-        let decrypted = try encryptionService.decryptAnswer(retrieved!)
+        #expect(retrieved != nil)
+        guard let retrieved = retrieved else {
+            #expect(Bool(false), "Expected answer to be retrieved")
+            return
+        }
+        let decrypted = try encryptionService.decryptAnswer(retrieved)
         #expect(decrypted == plainAnswer)
     }
 
@@ -449,7 +454,12 @@ struct FirestoreAnswerServiceTests {
         )
 
         // Assert
-        let decrypted = try encryptionService.decryptAnswer(retrieved!)
+        #expect(retrieved != nil)
+        guard let retrieved = retrieved else {
+            #expect(Bool(false), "Expected answer to be retrieved")
+            return
+        }
+        let decrypted = try encryptionService.decryptAnswer(retrieved)
         #expect(decrypted == longAnswer)
         #expect(decrypted.count == longAnswer.count)
     }

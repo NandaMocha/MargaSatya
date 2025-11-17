@@ -454,7 +454,7 @@ struct StudentExamViewModelTests {
     // MARK: - Submission Tests
 
     @Test("Submit exam saves all answers with encryption")
-    func testSubmitExam_SavesAllAnswersWithEncryption() async {
+    func testSubmitExam_SavesAllAnswersWithEncryption() async throws {
         // Arrange
         let viewModel = StudentExamViewModel(
             exam: testExam,
@@ -478,7 +478,7 @@ struct StudentExamViewModelTests {
         await viewModel.submitExam()
 
         // Assert
-        let savedAnswers = try! await mockAnswerService.listAnswers(sessionId: "session-123")
+        let savedAnswers = try await mockAnswerService.listAnswers(sessionId: "session-123")
         #expect(savedAnswers.count == 3)
         #expect(viewModel.isSubmitted == true)
         #expect(viewModel.isSubmitting == false)

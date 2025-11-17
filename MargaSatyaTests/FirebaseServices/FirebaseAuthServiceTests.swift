@@ -344,7 +344,11 @@ struct FirebaseAuthServiceTests {
         )
 
         // Act
-        let retrieved = try await mockService.getUser(userId: registered.id!)
+        guard let userId = registered.id else {
+            #expect(Bool(false), "Expected user to have an id")
+            return
+        }
+        let retrieved = try await mockService.getUser(userId: userId)
 
         // Assert
         #expect(retrieved != nil)
@@ -381,8 +385,12 @@ struct FirebaseAuthServiceTests {
         )
 
         // Act
-        let retrievedTeacher = try await mockService.getUser(userId: teacher.id!)
-        let retrievedAdmin = try await mockService.getUser(userId: admin.id!)
+        guard let teacherId = teacher.id, let adminId = admin.id else {
+            #expect(Bool(false), "Expected users to have IDs")
+            return
+        }
+        let retrievedTeacher = try await mockService.getUser(userId: teacherId)
+        let retrievedAdmin = try await mockService.getUser(userId: adminId)
 
         // Assert
         #expect(retrievedTeacher?.role == .teacher)
@@ -408,7 +416,11 @@ struct FirebaseAuthServiceTests {
         try await mockService.updateUser(user)
 
         // Assert
-        let updated = try await mockService.getUser(userId: user.id!)
+        guard let userId = user.id else {
+            #expect(Bool(false), "Expected user to have an id")
+            return
+        }
+        let updated = try await mockService.getUser(userId: userId)
         #expect(updated?.phoneNumber == "081234567890")
         #expect(updated?.photoURL == "https://example.com/photo.jpg")
     }
@@ -618,7 +630,11 @@ struct FirebaseAuthServiceTests {
         )
 
         // Act - Perform various operations
-        _ = try await mockService.getUser(userId: user.id!)
+        guard let userId = user.id else {
+            #expect(Bool(false), "Expected user to have an id")
+            return
+        }
+        _ = try await mockService.getUser(userId: userId)
         var updatedUser = user
         updatedUser.phoneNumber = "123456"
         try await mockService.updateUser(updatedUser)

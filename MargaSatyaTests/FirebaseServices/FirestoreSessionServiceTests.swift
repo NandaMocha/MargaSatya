@@ -387,7 +387,11 @@ struct FirestoreSessionServiceTests {
         // Assert
         let updated = try await mockService.getSession(sessionId: session.id!)
         #expect(updated?.status == .submitted)
-        // Second submission should overwrite
+        #expect(updated?.submittedAt != nil)
+        // Verify second submission overwrote the timestamp
+        if let submittedAt = updated?.submittedAt {
+            #expect(submittedAt >= firstSubmission)
+        }
     }
 
     // MARK: - List Sessions Tests
