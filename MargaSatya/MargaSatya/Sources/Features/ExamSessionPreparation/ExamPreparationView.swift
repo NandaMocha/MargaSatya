@@ -41,7 +41,7 @@ struct ExamPreparationView: View {
                             )
 
                         // Title
-                        Text(examSession.examTitle)
+                        Text(viewModel.examSession.examTitle)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -65,12 +65,12 @@ struct ExamPreparationView: View {
                                 Label("Exam ID", systemImage: "number.circle.fill")
                                     .foregroundColor(.white.opacity(0.8))
                                 Spacer()
-                                Text(examSession.examId)
+                                Text(viewModel.examSession.examId)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                             }
 
-                            if examSession.lockMode {
+                            if viewModel.examSession.lockMode {
                                 HStack {
                                     Label("Lock Mode", systemImage: "lock.shield.fill")
                                         .foregroundColor(.white.opacity(0.8))

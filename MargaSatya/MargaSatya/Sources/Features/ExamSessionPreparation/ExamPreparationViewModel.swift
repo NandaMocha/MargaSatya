@@ -18,7 +18,7 @@ final class ExamPreparationViewModel: ObservableObject {
 
     // MARK: - Dependencies
 
-    private let examSession: ExamSession
+    let examSession: ExamSession // Made public for view access
     private let assessmentService: any AssessmentModeServiceProtocol
 
     // MARK: - Initialization
