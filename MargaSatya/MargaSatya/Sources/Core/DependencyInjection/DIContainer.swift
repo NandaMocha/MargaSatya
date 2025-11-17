@@ -100,6 +100,16 @@ final class DIContainer {
         return AdminAuthViewModel(authService: authService)
     }
 
+    // MARK: - Student Management ViewModels
+
+    func makeStudentListViewModel(teacherId: String) -> StudentListViewModel {
+        return StudentListViewModel(studentService: studentService, teacherId: teacherId)
+    }
+
+    func makeStudentFormViewModel(teacherId: String, studentToEdit: Student?) -> StudentFormViewModel {
+        return StudentFormViewModel(studentService: studentService, teacherId: teacherId, studentToEdit: studentToEdit)
+    }
+
     // MARK: - Legacy Factory Methods (to be refactored)
 
     /// Create ExamPreparationViewModel with dependencies
