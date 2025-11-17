@@ -75,7 +75,10 @@ struct TeacherHomeView: View {
                 )
             }
             .navigationDestination(isPresented: $showExamList) {
-                ExamListPlaceholderView()
+                ExamListView(
+                    user: user,
+                    viewModel: DIContainer.shared.makeExamListViewModel(teacherId: user.id ?? "")
+                )
             }
         }
     }
@@ -148,7 +151,6 @@ struct TeacherHomeView: View {
                     subtitle: "Kelola ujian",
                     icon: "doc.text.fill",
                     gradient: [.purple, .pink],
-                    isDisabled: true,
                     action: {
                         showExamList = true
                     }
