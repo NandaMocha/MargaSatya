@@ -25,7 +25,7 @@ struct StudentExamViewModelTests {
     let testSession: ExamSession
     let testQuestions: [ExamQuestion]
 
-    init() {
+    init() async {
         self.mockExamService = MockExamService()
         self.mockSessionService = MockSessionService()
         self.mockAnswerService = MockAnswerService()
@@ -97,26 +97,20 @@ struct StudentExamViewModelTests {
         self.mockNetwork.statusToReturn = .connected
     }
 
-    // MARK: - Helper Methods
+    // MARK: - Initialization Tests
 
-    private func makeViewModel(session: ExamSession? = nil) -> StudentExamViewModel {
-        StudentExamViewModel(
+    @Test("ViewModel initializes with correct values")
+    func testInitialization_SetsCorrectValues() async {
+        // Arrange & Act
+        let viewModel = StudentExamViewModel(
             exam: testExam,
-            session: session ?? testSession,
+            session: testSession,
             examService: mockExamService,
             sessionService: mockSessionService,
             answerService: mockAnswerService,
             encryptionService: mockEncryption,
             networkMonitor: mockNetwork
         )
-    }
-
-    // MARK: - Initialization Tests
-
-    @Test("ViewModel initializes with correct values")
-    func testInitialization_SetsCorrectValues() async {
-        // Arrange & Act
-        let viewModel = makeViewModel()
 
         // Assert
         #expect(viewModel.sessionStatus == .notStarted)
@@ -135,7 +129,15 @@ struct StudentExamViewModelTests {
         resumedSession.answeredQuestionIds = ["q1", "q2"]
 
         // Act
-        let viewModel = makeViewModel(session: resumedSession)
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: resumedSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Assert
         #expect(viewModel.sessionStatus == .inProgress)
@@ -150,7 +152,15 @@ struct StudentExamViewModelTests {
     @Test("Load exam successfully loads questions")
     func testLoadExam_LoadsQuestionsSuccessfully() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Act
         await viewModel.loadExam()
@@ -174,7 +184,15 @@ struct StudentExamViewModelTests {
         ]
         mockExamService.questionsToReturn = unsortedQuestions
 
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Act
         await viewModel.loadExam()
@@ -188,7 +206,15 @@ struct StudentExamViewModelTests {
     @Test("Load exam starts session when not started")
     func testLoadExam_StartsSessionWhenNotStarted() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Act
         await viewModel.loadExam()
@@ -202,7 +228,15 @@ struct StudentExamViewModelTests {
     func testLoadExam_HandlesErrorsGracefully() async {
         // Arrange
         mockExamService.shouldFailOperations = true
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Act
         await viewModel.loadExam()
@@ -219,7 +253,15 @@ struct StudentExamViewModelTests {
     @Test("Go to next increments question index")
     func testGoToNext_IncrementsIndex() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Act
@@ -232,7 +274,15 @@ struct StudentExamViewModelTests {
     @Test("Go to next does not exceed bounds")
     func testGoToNext_DoesNotExceedBounds() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
         viewModel.goToNext()
         viewModel.goToNext()
@@ -247,7 +297,15 @@ struct StudentExamViewModelTests {
     @Test("Go to previous decrements question index")
     func testGoToPrevious_DecrementsIndex() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
         viewModel.goToNext()
 
@@ -261,7 +319,15 @@ struct StudentExamViewModelTests {
     @Test("Go to previous does not go below zero")
     func testGoToPrevious_DoesNotGoBelowZero() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Act
@@ -274,7 +340,15 @@ struct StudentExamViewModelTests {
     @Test("Go to question sets correct index")
     func testGoToQuestion_SetsCorrectIndex() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Act
@@ -287,7 +361,15 @@ struct StudentExamViewModelTests {
     @Test("Go to question ignores invalid index")
     func testGoToQuestion_IgnoresInvalidIndex() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Act
@@ -302,7 +384,15 @@ struct StudentExamViewModelTests {
     @Test("Current answer updates answers dictionary")
     func testCurrentAnswer_UpdatesAnswersDictionary() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Act
@@ -316,7 +406,15 @@ struct StudentExamViewModelTests {
     @Test("Empty answer removes from answered set")
     func testCurrentAnswer_EmptyRemovesFromAnsweredSet() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
         viewModel.currentAnswer = "Answer"
 
@@ -331,7 +429,15 @@ struct StudentExamViewModelTests {
     @Test("Progress calculated correctly")
     func testProgress_CalculatedCorrectly() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Act - Answer 2 out of 3 questions
@@ -348,9 +454,17 @@ struct StudentExamViewModelTests {
     // MARK: - Submission Tests
 
     @Test("Submit exam saves all answers with encryption")
-    func testSubmitExam_SavesAllAnswersWithEncryption() async {
+    func testSubmitExam_SavesAllAnswersWithEncryption() async throws {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Answer all questions
@@ -364,7 +478,7 @@ struct StudentExamViewModelTests {
         await viewModel.submitExam()
 
         // Assert
-        let savedAnswers = try! await mockAnswerService.listAnswers(sessionId: testSession.id!)
+        let savedAnswers = try await mockAnswerService.listAnswers(sessionId: "session-123")
         #expect(savedAnswers.count == 3)
         #expect(viewModel.isSubmitted == true)
         #expect(viewModel.isSubmitting == false)
@@ -374,7 +488,15 @@ struct StudentExamViewModelTests {
     func testSubmitExam_MarksSessionSubmittedWhenOnline() async {
         // Arrange
         mockNetwork.statusToReturn = .connected
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
         viewModel.currentAnswer = "Answer"
 
@@ -391,7 +513,15 @@ struct StudentExamViewModelTests {
     func testSubmitExam_MarksSessionPendingWhenOffline() async {
         // Arrange
         mockNetwork.statusToReturn = .disconnected
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
         viewModel.currentAnswer = "Answer"
 
@@ -408,7 +538,15 @@ struct StudentExamViewModelTests {
     func testSubmitExam_HandlesErrorsGracefully() async {
         // Arrange
         mockAnswerService.shouldFailOperations = true
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
         viewModel.currentAnswer = "Answer"
 
@@ -427,7 +565,15 @@ struct StudentExamViewModelTests {
     @Test("Current question returns correct question")
     func testCurrentQuestion_ReturnsCorrectQuestion() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Assert
@@ -443,7 +589,15 @@ struct StudentExamViewModelTests {
     @Test("Can go next returns correct value")
     func testCanGoNext_ReturnsCorrectValue() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Assert
@@ -459,7 +613,15 @@ struct StudentExamViewModelTests {
     @Test("Can go previous returns correct value")
     func testCanGoPrevious_ReturnsCorrectValue() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
         await viewModel.loadExam()
 
         // Assert
@@ -476,7 +638,15 @@ struct StudentExamViewModelTests {
     func testNetworkAvailability_ReflectsNetworkMonitorStatus() async {
         // Arrange
         mockNetwork.statusToReturn = .connected
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Assert
         #expect(viewModel.isNetworkAvailable == true)
@@ -491,7 +661,15 @@ struct StudentExamViewModelTests {
     @Test("Time remaining formatted correctly")
     func testTimeRemainingFormatted_FormatsCorrectly() async {
         // Arrange
-        let viewModel = makeViewModel()
+        let viewModel = StudentExamViewModel(
+            exam: testExam,
+            session: testSession,
+            examService: mockExamService,
+            sessionService: mockSessionService,
+            answerService: mockAnswerService,
+            encryptionService: mockEncryption,
+            networkMonitor: mockNetwork
+        )
 
         // Test various time formats
         // 1 hour 30 minutes 45 seconds

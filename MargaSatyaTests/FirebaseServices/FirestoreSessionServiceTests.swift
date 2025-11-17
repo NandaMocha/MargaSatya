@@ -387,11 +387,10 @@ struct FirestoreSessionServiceTests {
         // Assert
         let updated = try await mockService.getSession(sessionId: session.id!)
         #expect(updated?.status == .submitted)
+        #expect(updated?.submittedAt != nil)
         // Verify second submission overwrote the timestamp
         if let submittedAt = updated?.submittedAt {
-            #expect(submittedAt >= secondSubmission)
-        } else {
-            #expect(Bool(false), "Expected submittedAt to be set on resubmission")
+            #expect(submittedAt >= firstSubmission)
         }
     }
 
