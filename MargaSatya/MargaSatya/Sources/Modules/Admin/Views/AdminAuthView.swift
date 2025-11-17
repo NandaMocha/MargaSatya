@@ -54,7 +54,10 @@ struct AdminAuthView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(isPresented: $viewModel.isAuthenticated) {
             if let user = viewModel.currentUser {
-                AdminDashboardView(user: user)
+                AdminDashboardView(
+                    user: user,
+                    viewModel: DIContainer.shared.makeAdminDashboardViewModel()
+                )
             }
         }
     }
@@ -183,58 +186,6 @@ final class AdminAuthViewModel: ObservableObject {
 
     func clearError() {
         errorMessage = nil
-    }
-}
-
-// MARK: - Admin Dashboard (Placeholder)
-
-struct AdminDashboardView: View {
-    let user: User
-
-    var body: some View {
-        ZStack {
-            GlassBackground()
-
-            VStack(spacing: UIConstants.Spacing.large) {
-                VStack(spacing: UIConstants.Spacing.small) {
-                    Image(systemName: "chart.bar.fill")
-                        .font(.system(size: 60))
-                        .foregroundStyle(.purple)
-
-                    Text("Dashboard Admin")
-                        .font(.title.bold())
-                        .foregroundStyle(.white)
-
-                    Text("Selamat datang, \(user.name)")
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.7))
-                }
-                .padding(.top, UIConstants.Spacing.extraLarge)
-
-                Spacer()
-
-                VStack(spacing: UIConstants.Spacing.medium) {
-                    Text("🚧 Dalam Pengembangan 🚧")
-                        .font(.title2.bold())
-                        .foregroundStyle(.white)
-
-                    Text("Fitur dashboard dan statistik\nakan tersedia di Fase 7")
-                        .font(.body)
-                        .foregroundStyle(.white.opacity(0.7))
-                        .multilineTextAlignment(.center)
-                }
-                .padding(UIConstants.Spacing.large)
-                .background(
-                    RoundedRectangle(cornerRadius: UIConstants.CornerRadius.large)
-                        .fill(.white.opacity(0.1))
-                )
-                .padding(.horizontal, UIConstants.Spacing.large)
-
-                Spacer()
-            }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
     }
 }
 

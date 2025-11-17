@@ -146,6 +146,16 @@ final class DIContainer {
         return GoogleFormExamViewModel(exam: exam, session: session, sessionService: sessionService)
     }
 
+    // MARK: - Admin ViewModels
+
+    func makeAdminDashboardViewModel() -> AdminDashboardViewModel {
+        return AdminDashboardViewModel(adminService: adminService, authService: authService)
+    }
+
+    func makeTeacherStatsViewModel(teacherId: String) -> TeacherStatsViewModel {
+        return TeacherStatsViewModel(adminService: adminService, teacherId: teacherId)
+    }
+
     // MARK: - Legacy Factory Methods (to be refactored)
 
     /// Create ExamPreparationViewModel with dependencies
