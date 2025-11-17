@@ -296,6 +296,54 @@ struct FirestoreAnswerServiceTests {
         #expect(session2Answers.count == 2)
     }
 
+    // MARK: - Service Failure Tests
+
+    @Test("Service failure for all operations")
+    func testServiceFailure_AllOperations() async throws {
+        // Arrange
+        mockService.shouldFailOperations = true
+        let encrypted = try encryptionService.encryptAnswer(
+            plainText: "Test",
+            forQuestionId: testQuestionId,
+            sessionId: testSessionId
+        )
+
+        // Act & Assert - saveAnswer
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.saveAnswer(sessionId: testSessionId, answer: encrypted)
+        }
+
+        // Act & Assert - getAnswer
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.getAnswer(sessionId: testSessionId, questionId: testQuestionId)
+        }
+
+        // Act & Assert - listAnswers
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.listAnswers(sessionId: testSessionId)
+        }
+
+        // Act & Assert - hasAnswer
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.hasAnswer(sessionId: testSessionId, questionId: testQuestionId)
+        }
+
+        // Act & Assert - getAnsweredCount
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.getAnsweredCount(sessionId: testSessionId)
+        }
+
+        // Act & Assert - deleteAllAnswers
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.deleteAllAnswers(sessionId: testSessionId)
+        }
+
+        // Act & Assert - saveAnswersBatch
+        await #expect(throws: AnswerServiceError.self) {
+            try await mockService.saveAnswersBatch(sessionId: testSessionId, answers: [encrypted])
+        }
+    }
+
     // MARK: - Delete Tests
 
     @Test("Delete all answers removes all data")
