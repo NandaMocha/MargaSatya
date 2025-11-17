@@ -132,6 +132,20 @@ final class DIContainer {
         return ParticipantSelectionViewModel(examService: examService, studentService: studentService, examId: examId, teacherId: teacherId)
     }
 
+    // MARK: - Student ViewModels
+
+    func makeStudentEntryViewModel() -> StudentEntryViewModel {
+        return StudentEntryViewModel(studentService: studentService, examService: examService, sessionService: sessionService)
+    }
+
+    func makeStudentExamViewModel(exam: Exam, session: ExamSession) -> StudentExamViewModel {
+        return StudentExamViewModel(exam: exam, session: session, examService: examService, sessionService: sessionService, answerService: answerService, encryptionService: encryptionService, networkMonitor: networkMonitor)
+    }
+
+    func makeGoogleFormExamViewModel(exam: Exam, session: ExamSession) -> GoogleFormExamViewModel {
+        return GoogleFormExamViewModel(exam: exam, session: session, sessionService: sessionService)
+    }
+
     // MARK: - Legacy Factory Methods (to be refactored)
 
     /// Create ExamPreparationViewModel with dependencies

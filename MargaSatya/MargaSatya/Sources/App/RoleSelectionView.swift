@@ -52,7 +52,9 @@ struct RoleSelectionView: View {
                 AdminAuthView()
             }
             .navigationDestination(isPresented: $showStudentEntry) {
-                StudentEntryView()
+                StudentEntryView(
+                    viewModel: DIContainer.shared.makeStudentEntryViewModel()
+                )
             }
         }
     }
