@@ -100,6 +100,62 @@ final class DIContainer {
         return AdminAuthViewModel(authService: authService)
     }
 
+    // MARK: - Student Management ViewModels
+
+    func makeStudentListViewModel(teacherId: String) -> StudentListViewModel {
+        return StudentListViewModel(studentService: studentService, teacherId: teacherId)
+    }
+
+    func makeStudentFormViewModel(teacherId: String, studentToEdit: Student?) -> StudentFormViewModel {
+        return StudentFormViewModel(studentService: studentService, teacherId: teacherId, studentToEdit: studentToEdit)
+    }
+
+    // MARK: - Exam Management ViewModels
+
+    func makeExamListViewModel(teacherId: String) -> ExamListViewModel {
+        return ExamListViewModel(examService: examService, teacherId: teacherId)
+    }
+
+    func makeExamFormViewModel(teacherId: String, examToEdit: Exam?) -> ExamFormViewModel {
+        return ExamFormViewModel(examService: examService, teacherId: teacherId, examToEdit: examToEdit)
+    }
+
+    func makeQuestionListViewModel(examId: String) -> QuestionListViewModel {
+        return QuestionListViewModel(examService: examService, examId: examId)
+    }
+
+    func makeQuestionFormViewModel(examId: String, questionToEdit: ExamQuestion?, currentQuestionCount: Int) -> QuestionFormViewModel {
+        return QuestionFormViewModel(examService: examService, examId: examId, questionToEdit: questionToEdit, currentQuestionCount: currentQuestionCount)
+    }
+
+    func makeParticipantSelectionViewModel(examId: String, teacherId: String) -> ParticipantSelectionViewModel {
+        return ParticipantSelectionViewModel(examService: examService, studentService: studentService, examId: examId, teacherId: teacherId)
+    }
+
+    // MARK: - Student ViewModels
+
+    func makeStudentEntryViewModel() -> StudentEntryViewModel {
+        return StudentEntryViewModel(studentService: studentService, examService: examService, sessionService: sessionService)
+    }
+
+    func makeStudentExamViewModel(exam: Exam, session: ExamSession) -> StudentExamViewModel {
+        return StudentExamViewModel(exam: exam, session: session, examService: examService, sessionService: sessionService, answerService: answerService, encryptionService: encryptionService, networkMonitor: networkMonitor)
+    }
+
+    func makeGoogleFormExamViewModel(exam: Exam, session: ExamSession) -> GoogleFormExamViewModel {
+        return GoogleFormExamViewModel(exam: exam, session: session, sessionService: sessionService)
+    }
+
+    // MARK: - Admin ViewModels
+
+    func makeAdminDashboardViewModel() -> AdminDashboardViewModel {
+        return AdminDashboardViewModel(adminService: adminService, authService: authService)
+    }
+
+    func makeTeacherStatsViewModel(teacherId: String) -> TeacherStatsViewModel {
+        return TeacherStatsViewModel(adminService: adminService, teacherId: teacherId)
+    }
+
     // MARK: - Legacy Factory Methods (to be refactored)
 
     /// Create ExamPreparationViewModel with dependencies
