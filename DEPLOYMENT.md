@@ -1,6 +1,6 @@
-# SecureExamID - Production Deployment Guide
+# MargaSatya - Production Deployment Guide
 
-Comprehensive guide untuk deploy SecureExamID ke production (App Store) dengan semua considerations untuk security, testing, dan maintenance.
+Comprehensive guide untuk deploy MargaSatya ke production (App Store) dengan semua considerations untuk security, testing, dan maintenance.
 
 ---
 
@@ -195,7 +195,7 @@ Verify these keys untuk production:
 
 ```xml
 <key>CFBundleDisplayName</key>
-<string>SecureExamID</string>
+<string>MargaSatya</string>
 
 <key>CFBundleShortVersionString</key>
 <string>1.0.0</string>
@@ -238,7 +238,7 @@ Verify these keys untuk production:
 1. [Apple Developer Portal](https://developer.apple.com/) → Certificates, IDs & Profiles
 2. **Identifiers** → **+** button
 3. Select **App IDs** → Continue
-4. **Description:** SecureExamID
+4. **Description:** MargaSatya
 5. **Bundle ID:** Explicit - `com.yourcompany.secureexamid`
 6. **Capabilities:**
    - ✅ Associated Domains (if using universal links)
@@ -272,7 +272,7 @@ Upload CSR di Developer Portal → Certificates → **+**
 2. **Distribution** → **App Store**
 3. Select App ID: `com.yourcompany.secureexamid`
 4. Select Distribution Certificate
-5. **Profile Name:** `SecureExamID App Store`
+5. **Profile Name:** `MargaSatya App Store`
 6. Generate → Download
 
 **Install Profile:**
@@ -291,7 +291,7 @@ Upload CSR di Developer Portal → Certificates → **+**
 **Manual Signing (Advanced):**
 
 1. **Automatically manage signing:** ❌ Unchecked
-2. **Provisioning Profile:** Select `SecureExamID App Store`
+2. **Provisioning Profile:** Select `MargaSatya App Store`
 3. Verify **Signing Certificate:** `Apple Distribution: Your Team`
 
 ---
@@ -301,7 +301,7 @@ Upload CSR di Developer Portal → Certificates → **+**
 ### Create Production Project
 
 1. [Firebase Console](https://console.firebase.google.com)
-2. **Add project** → `SecureExamID-Prod`
+2. **Add project** → `MargaSatya-Prod`
 3. **Add iOS app:**
    - Bundle ID: `com.yourcompany.secureexamid` (production)
 4. Download `GoogleService-Info.plist` → Save ke `Firebase/Prod/`
@@ -392,7 +392,7 @@ gcloud firestore export gs://your-bucket/backups/$(date +%Y%m%d)
 1. [App Store Connect](https://appstoreconnect.apple.com)
 2. **My Apps** → **+** → **New App**
 3. **Platforms:** iOS
-4. **Name:** SecureExamID
+4. **Name:** MargaSatya
 5. **Primary Language:** Indonesian (or English)
 6. **Bundle ID:** Select `com.yourcompany.secureexamid`
 7. **SKU:** SECUREEXAMID001 (unique identifier)
@@ -415,7 +415,7 @@ gcloud firestore export gs://your-bucket/backups/$(date +%Y%m%d)
 ### Prepare Metadata
 
 **App Name:**
-- `SecureExamID` atau `SecureExamID - Ujian Terenkripsi`
+- `MargaSatya` atau `MargaSatya - Ujian Terenkripsi`
 - Max 30 characters
 
 **Subtitle:**
@@ -425,7 +425,7 @@ gcloud firestore export gs://your-bucket/backups/$(date +%Y%m%d)
 **Description:**
 
 ```
-SecureExamID adalah platform ujian komprehensif untuk institusi pendidikan dengan sistem 3-role (Siswa, Guru, Admin) dan enkripsi AES-256-GCM.
+MargaSatya adalah platform ujian komprehensif untuk institusi pendidikan dengan sistem 3-role (Siswa, Guru, Admin) dan enkripsi AES-256-GCM.
 
 FITUR UTAMA:
 
@@ -510,7 +510,7 @@ Use `Cmd + S` di simulator untuk capture.
 
 **What's New:**
 ```
-🎉 Rilis Awal SecureExamID!
+🎉 Rilis Awal MargaSatya!
 
 Platform ujian terenkripsi dengan fitur:
 
@@ -574,7 +574,7 @@ Likely rating: **4+** (suitable for all ages)
 
 **Verify Upload:**
 
-1. App Store Connect → My Apps → SecureExamID
+1. App Store Connect → My Apps → MargaSatya
 2. **TestFlight** tab → iOS builds
 3. Wait untuk "Processing" → "Ready to Submit"
 4. May take 15-60 minutes
@@ -616,7 +616,7 @@ Likely rating: **4+** (suitable for all ages)
 
 3. **Notes:**
    ```
-   SecureExamID is an educational exam platform with 3 roles:
+   MargaSatya is an educational exam platform with 3 roles:
 
    1. STUDENTS: Enter with NIS + access code (no registration required)
    2. TEACHERS: Create/manage exams and students
@@ -692,7 +692,7 @@ Likely rating: **4+** (suitable for all ages)
 
 1. Select group → Add build
 2. Testers will receive email with TestFlight link
-3. They download TestFlight app → Install SecureExamID
+3. They download TestFlight app → Install MargaSatya
 
 **Collect Feedback:**
 
@@ -720,7 +720,7 @@ Likely rating: **4+** (suitable for all ages)
 **Firebase Analytics:**
 
 ```swift
-// Add to SecureExamIDApp.swift
+// Add to MargaSatyaApp.swift
 import FirebaseAnalytics
 
 init() {

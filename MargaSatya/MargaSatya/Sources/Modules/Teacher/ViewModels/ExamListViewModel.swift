@@ -1,6 +1,6 @@
 //
 //  ExamListViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for managing exam list with filtering and search
 //

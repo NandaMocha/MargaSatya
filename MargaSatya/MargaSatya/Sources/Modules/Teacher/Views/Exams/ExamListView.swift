@@ -1,6 +1,6 @@
 //
 //  ExamListView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  View for displaying and managing exam list
 //

@@ -1,6 +1,6 @@
 //
 //  FirestoreSessionService.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Firestore implementation for ExamSession management
 //

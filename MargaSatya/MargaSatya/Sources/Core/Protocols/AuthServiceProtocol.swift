@@ -1,6 +1,6 @@
 //
 //  AuthServiceProtocol.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Protocol for authentication operations
 //

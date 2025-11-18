@@ -1,6 +1,6 @@
 //
 //  User.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  User model for authentication and role-based access
 //

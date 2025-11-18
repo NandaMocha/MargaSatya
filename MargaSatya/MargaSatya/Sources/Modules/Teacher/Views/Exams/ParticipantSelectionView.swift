@@ -1,6 +1,6 @@
 //
 //  ParticipantSelectionView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  View for selecting exam participants
 //

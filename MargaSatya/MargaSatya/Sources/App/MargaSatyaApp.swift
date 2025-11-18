@@ -1,6 +1,6 @@
 //
-//  SecureExamIDApp.swift
-//  SecureExamID
+//  MargaSatyaApp.swift
+//  MargaSatya
 //
 //  Main application entry point
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseCore
 
 @main
-struct SecureExamIDApp: App {
+struct MargaSatyaApp: App {
 
     // MARK: - Initialization
 

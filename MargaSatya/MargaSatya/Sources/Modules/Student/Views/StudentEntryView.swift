@@ -1,6 +1,6 @@
 //
 //  StudentEntryView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Student entry point for exam access
 //

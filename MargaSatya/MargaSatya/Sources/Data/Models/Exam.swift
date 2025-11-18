@@ -1,6 +1,6 @@
 //
 //  Exam.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Exam model supporting Google Form and In-App exams
 //

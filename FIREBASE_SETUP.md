@@ -1,6 +1,6 @@
-# Firebase Setup untuk SecureExamID
+# Firebase Setup untuk MargaSatya
 
-Panduan lengkap untuk setup Firebase Firestore dan Authentication untuk SecureExamID.
+Panduan lengkap untuk setup Firebase Firestore dan Authentication untuk MargaSatya.
 
 ---
 
@@ -19,7 +19,7 @@ Panduan lengkap untuk setup Firebase Firestore dan Authentication untuk SecureEx
 
 1. Buka [Firebase Console](https://console.firebase.google.com)
 2. Klik **Add Project** atau **Create a project**
-3. **Project Name:** `SecureExamID` (atau nama lain)
+3. **Project Name:** `MargaSatya` (atau nama lain)
 4. **Google Analytics:** Optional (bisa disable untuk simplicity)
 5. Klik **Create Project**
 
@@ -30,7 +30,7 @@ Panduan lengkap untuk setup Firebase Firestore dan Authentication untuk SecureEx
    - Untuk mendapatkan bundle ID:
      - Buka Xcode → Target MargaSatya → General → Identity → Bundle Identifier
      - Contoh: `com.margasatya.secureexamid`
-3. **App Nickname:** SecureExamID (optional)
+3. **App Nickname:** MargaSatya (optional)
 4. **App Store ID:** Kosongkan (optional, untuk production nanti)
 5. Klik **Register App**
 
@@ -80,14 +80,14 @@ Build project (`Cmd + B`). Jika ada error:
 
 ## ⚙️ Step 3: Initialize Firebase
 
-Firebase sudah di-initialize di `SecureExamIDApp.swift`. Verifikasi code:
+Firebase sudah di-initialize di `MargaSatyaApp.swift`. Verifikasi code:
 
 ```swift
 import SwiftUI
 import FirebaseCore
 
 @main
-struct SecureExamIDApp: App {
+struct MargaSatyaApp: App {
 
     init() {
         // Initialize Firebase
@@ -499,7 +499,7 @@ import FirebaseAuth
 **Cause:** `FirebaseApp.configure()` belum dipanggil
 
 **Solution:**
-1. Check `SecureExamIDApp.swift` → `init()` method
+1. Check `MargaSatyaApp.swift` → `init()` method
 2. Pastikan `FirebaseApp.configure()` dipanggil SEBELUM apapun
 3. Pastikan `GoogleService-Info.plist` ada di main bundle
 
@@ -682,7 +682,7 @@ Expected result: Allow
 1. Firebase Console → Analytics
 2. Enable Analytics untuk your project
 3. Tambahkan `FirebaseAnalytics` di SPM dependencies
-4. Import di `SecureExamIDApp.swift`:
+4. Import di `MargaSatyaApp.swift`:
    ```swift
    import FirebaseAnalytics
    ```
@@ -706,7 +706,7 @@ Untuk development vs production:
 
 ### Development Environment
 
-1. Create separate Firebase project: `SecureExamID-Dev`
+1. Create separate Firebase project: `MargaSatya-Dev`
 2. Download `GoogleService-Info-Dev.plist`
 3. Use build configurations di Xcode:
    ```swift

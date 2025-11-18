@@ -1,6 +1,6 @@
 //
 //  StudentExamView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  View for In-App exam execution
 //

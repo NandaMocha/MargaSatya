@@ -1,6 +1,6 @@
 //
 //  FirebaseAuthService.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Firebase Authentication implementation
 //

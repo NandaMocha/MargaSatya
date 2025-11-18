@@ -1,6 +1,6 @@
 //
 //  FirestoreExamService.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Firestore implementation for Exam management
 //

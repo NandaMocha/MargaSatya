@@ -1,6 +1,6 @@
 //
 //  ExamServiceProtocol.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Protocol for exam management operations
 //

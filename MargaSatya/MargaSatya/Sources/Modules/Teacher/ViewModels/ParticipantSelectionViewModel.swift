@@ -1,6 +1,6 @@
 //
 //  ParticipantSelectionViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for managing exam participants
 //

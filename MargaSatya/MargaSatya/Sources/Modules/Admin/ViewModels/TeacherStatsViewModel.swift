@@ -1,6 +1,6 @@
 //
 //  TeacherStatsViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for teacher statistics
 //

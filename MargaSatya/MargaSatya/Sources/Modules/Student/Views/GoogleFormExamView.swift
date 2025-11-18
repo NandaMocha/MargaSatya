@@ -1,6 +1,6 @@
 //
 //  GoogleFormExamView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  View for Google Form exam with WebView
 //  NOTE: In production, this would use AAC (Automatic Assessment Configuration)

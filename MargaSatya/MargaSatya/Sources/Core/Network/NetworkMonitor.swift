@@ -1,6 +1,6 @@
 //
 //  NetworkMonitor.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Monitors network connectivity status
 //  Used to handle SUBMISSION_PENDING state when connection is poor

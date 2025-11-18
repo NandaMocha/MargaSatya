@@ -1,6 +1,6 @@
 //
 //  TeacherHomeView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Teacher dashboard with navigation to student and exam management
 //

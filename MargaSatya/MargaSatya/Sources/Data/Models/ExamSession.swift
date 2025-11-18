@@ -1,6 +1,6 @@
 //
 //  ExamSession.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Model for active exam sessions (Firestore-backed)
 //

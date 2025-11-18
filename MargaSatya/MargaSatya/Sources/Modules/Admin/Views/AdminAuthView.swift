@@ -1,6 +1,6 @@
 //
 //  AdminAuthView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Admin authentication dengan admin key
 //

@@ -1,6 +1,6 @@
 //
 //  StudentEntryViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for student NIS and exam access code entry
 //

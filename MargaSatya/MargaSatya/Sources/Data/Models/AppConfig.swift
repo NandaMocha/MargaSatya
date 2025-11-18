@@ -1,6 +1,6 @@
 //
 //  AppConfig.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Application configuration stored in Firestore
 //

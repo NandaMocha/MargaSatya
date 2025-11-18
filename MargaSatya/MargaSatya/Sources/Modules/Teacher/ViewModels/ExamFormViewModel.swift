@@ -1,6 +1,6 @@
 //
 //  ExamFormViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for creating and editing exams (both types)
 //

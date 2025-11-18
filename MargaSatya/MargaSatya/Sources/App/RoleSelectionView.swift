@@ -1,6 +1,6 @@
 //
 //  RoleSelectionView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Landing page untuk memilih role (Siswa, Guru, Admin)
 //
@@ -133,7 +133,7 @@ struct RoleSelectionView: View {
                 .font(.caption)
                 .foregroundStyle(.white.opacity(0.6))
 
-            Text("© 2024 SecureExamID")
+            Text("© 2024 MargaSatya")
                 .font(.caption2)
                 .foregroundStyle(.white.opacity(0.4))
         }

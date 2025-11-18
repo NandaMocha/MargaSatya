@@ -1,6 +1,6 @@
 //
 //  AppConfiguration.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Application configuration management
 //
@@ -172,7 +172,7 @@ struct AppConfiguration {
     /// App Information
     struct Info {
         static let version = "2.0.0"
-        static let name = "SecureExamID"
+        static let name = "MargaSatya"
         static let tagline = "Platform Ujian Digital Aman"
         static let bundleId = "com.margasatya.secureexamid"
     }

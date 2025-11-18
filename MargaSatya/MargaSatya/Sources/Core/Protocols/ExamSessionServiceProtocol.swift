@@ -1,6 +1,6 @@
 //
 //  ExamSessionServiceProtocol.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Protocol for exam session management
 //

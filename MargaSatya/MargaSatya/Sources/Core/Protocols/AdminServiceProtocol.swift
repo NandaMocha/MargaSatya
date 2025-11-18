@@ -1,6 +1,6 @@
 //
 //  AdminServiceProtocol.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Protocol for admin operations and statistics
 //

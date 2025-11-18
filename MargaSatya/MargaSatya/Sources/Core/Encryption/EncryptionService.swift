@@ -1,6 +1,6 @@
 //
 //  EncryptionService.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Handles AES-256 encryption/decryption for exam answers
 //  Keys are stored securely in iOS Keychain

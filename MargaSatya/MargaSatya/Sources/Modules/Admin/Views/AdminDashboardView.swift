@@ -1,6 +1,6 @@
 //
 //  AdminDashboardView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Admin dashboard with system statistics and monitoring
 //

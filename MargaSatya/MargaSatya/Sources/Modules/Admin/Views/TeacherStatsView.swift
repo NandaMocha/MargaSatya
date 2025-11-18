@@ -1,6 +1,6 @@
 //
 //  TeacherStatsView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Detailed statistics view for a specific teacher
 //

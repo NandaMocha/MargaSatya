@@ -1,6 +1,6 @@
 //
 //  TeacherAuthView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Teacher authentication view dengan tab Login & Register
 //

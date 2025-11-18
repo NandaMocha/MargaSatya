@@ -1,6 +1,6 @@
 //
 //  StudentListView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  View for displaying and managing student list
 //

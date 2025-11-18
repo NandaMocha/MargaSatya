@@ -1,6 +1,6 @@
 //
 //  Student.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Student model for exam participants
 //

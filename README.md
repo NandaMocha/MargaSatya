@@ -1,4 +1,4 @@
-# SecureExamID - Platform Ujian Terenkripsi
+# MargaSatya - Platform Ujian Terenkripsi
 
 **Version:** 2.0
 **Platform:** iOS 15+ (iPhone XR+)
@@ -9,7 +9,7 @@
 
 ## 📱 Overview
 
-SecureExamID adalah platform ujian komprehensif untuk iOS dengan sistem 3-role (Siswa, Guru, Admin) yang mendukung dua jenis ujian: **Google Form** dan **In-App**. Aplikasi ini dibangun dengan standar enterprise menggunakan enkripsi AES-256-GCM, Firebase Firestore backend, dan architecture MVVM yang testable.
+MargaSatya adalah platform ujian komprehensif untuk iOS dengan sistem 3-role (Siswa, Guru, Admin) yang mendukung dua jenis ujian: **Google Form** dan **In-App**. Aplikasi ini dibangun dengan standar enterprise menggunakan enkripsi AES-256-GCM, Firebase Firestore backend, dan architecture MVVM yang testable.
 
 ### 🎯 Key Differentiators
 
@@ -227,7 +227,7 @@ MargaSatya/
 │       ├── EncryptionServiceTests.swift
 │       └── NetworkMonitorTests.swift
 │
-└── SecureExamIDApp.swift                      # App entry point
+└── MargaSatyaApp.swift                        # App entry point
 
 ```
 
@@ -399,7 +399,7 @@ Ikuti panduan lengkap di **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)**
 2. Select target **MargaSatya**
 3. **Signing & Capabilities:**
    - Select your team
-   - Set bundle identifier (e.g., `com.yourcompany.secureexamid`)
+   - Set bundle identifier (e.g., `xyz.nandamochammad.MargaSatya`)
 4. **Info.plist:**
    - Already configured untuk Firebase dan ATS
 5. Build & Run (Cmd + R)
@@ -410,14 +410,14 @@ Ikuti panduan lengkap di **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)**
 
 1. Buka Firebase Console → Authentication
 2. Add user manually:
-   - Email: `admin@example.com`
+   - Email: `admin@margasatya.com`
    - Password: `admin123`
 3. Buka Firestore → Collection `users`
 4. Add document dengan ID = Auth UID:
    ```json
    {
      "name": "Super Admin",
-     "email": "admin@example.com",
+     "email": "admin@margasatya.com",
      "role": "ADMIN",
      "authUID": "<Firebase Auth UID>",
      "createdAt": <Timestamp>
@@ -665,7 +665,7 @@ git push origin feature/exam-analytics
 
 **Solutions:**
 1. Check `GoogleService-Info.plist` is in main bundle
-2. Verify `FirebaseApp.configure()` is called in `SecureExamIDApp.swift`
+2. Verify `FirebaseApp.configure()` is called in `MargaSatyaApp.swift`
 3. Check Firebase SDK version compatibility
 
 ---
@@ -730,13 +730,13 @@ git push origin feature/exam-analytics
 
 ## 👥 Contributors
 
-Built with ❤️ by the SecureExamID team.
+Built with ❤️ by the MargaSatya team.
 
 ---
 
 ## 📄 License
 
-Copyright © 2025 SecureExamID. All rights reserved.
+Copyright © 2025 MargaSatya. All rights reserved.
 
 This is proprietary educational software. Unauthorized copying, modification, or distribution is prohibited.
 
@@ -754,9 +754,9 @@ This is proprietary educational software. Unauthorized copying, modification, or
 
 Untuk pertanyaan, bug reports, atau feature requests:
 - Open issue di GitHub repository
-- Email: support@secureexamid.com
-- Documentation: [docs.secureexamid.com](https://docs.secureexamid.com)
+- Email: support@margasatya.com
+- Documentation: Lihat file dokumentasi di repository
 
 ---
 
-**SecureExamID** - Platform Ujian Terenkripsi untuk Institusi Pendidikan Modern
+**MargaSatya** - Platform Ujian Terenkripsi untuk Institusi Pendidikan Modern

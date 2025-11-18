@@ -1,6 +1,6 @@
 //
 //  FirestoreAdminService.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Firestore implementation for Admin operations and statistics
 //

@@ -1,6 +1,6 @@
 //
 //  QuestionListViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for managing exam questions
 //

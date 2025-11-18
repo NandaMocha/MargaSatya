@@ -1,6 +1,6 @@
 //
 //  SubmissionPendingView.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  View shown when exam submission is pending due to network issues
 //

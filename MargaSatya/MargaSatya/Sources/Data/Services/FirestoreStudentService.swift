@@ -1,6 +1,6 @@
 //
 //  FirestoreStudentService.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Firestore implementation for Student management
 //

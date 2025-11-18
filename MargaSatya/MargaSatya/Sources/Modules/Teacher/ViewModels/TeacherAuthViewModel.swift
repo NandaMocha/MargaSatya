@@ -1,6 +1,6 @@
 //
 //  TeacherAuthViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel untuk Teacher authentication (login & register)
 //

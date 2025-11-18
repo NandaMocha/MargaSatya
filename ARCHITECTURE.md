@@ -1,6 +1,6 @@
-# SecureExamID - Architecture Documentation
+# MargaSatya - Architecture Documentation
 
-Deep dive into the architecture, design patterns, dan technical decisions untuk SecureExamID platform.
+Deep dive into the architecture, design patterns, dan technical decisions untuk MargaSatya platform.
 
 ---
 

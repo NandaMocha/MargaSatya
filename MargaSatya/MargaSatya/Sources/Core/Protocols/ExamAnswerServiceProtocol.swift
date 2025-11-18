@@ -1,6 +1,6 @@
 //
 //  ExamAnswerServiceProtocol.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Protocol for exam answer storage (encrypted)
 //

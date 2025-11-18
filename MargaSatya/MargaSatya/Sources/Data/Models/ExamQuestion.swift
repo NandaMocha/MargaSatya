@@ -1,6 +1,6 @@
 //
 //  ExamQuestion.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Question model for In-App exams
 //

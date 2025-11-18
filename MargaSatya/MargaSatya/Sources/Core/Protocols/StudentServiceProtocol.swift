@@ -1,6 +1,6 @@
 //
 //  StudentServiceProtocol.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Protocol for student management operations
 //

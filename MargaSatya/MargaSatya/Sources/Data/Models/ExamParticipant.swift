@@ -1,6 +1,6 @@
 //
 //  ExamParticipant.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  Model for students allowed to take a specific exam
 //

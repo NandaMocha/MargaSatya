@@ -1,6 +1,6 @@
 //
 //  AdminDashboardViewModel.swift
-//  SecureExamID
+//  MargaSatya
 //
 //  ViewModel for admin dashboard with statistics
 //
