@@ -82,12 +82,6 @@ final class DIContainer {
         }
     }()
 
-    // MARK: - Legacy Services (to be removed)
-
-    private(set) lazy var assessmentService: any AssessmentModeServiceProtocol = {
-        return AssessmentModeManager()
-    }()
-
     private init() {}
 
     // MARK: - Auth ViewModels
@@ -154,23 +148,5 @@ final class DIContainer {
 
     func makeTeacherStatsViewModel(teacherId: String) -> TeacherStatsViewModel {
         return TeacherStatsViewModel(adminService: adminService, teacherId: teacherId)
-    }
-
-    // MARK: - Legacy Factory Methods (to be refactored)
-
-    /// Create ExamPreparationViewModel with dependencies
-    func makeExamPreparationViewModel(examSession: ExamSession) -> ExamPreparationViewModel {
-        return ExamPreparationViewModel(
-            examSession: examSession,
-            assessmentService: assessmentService
-        )
-    }
-
-    /// Create SecureExamViewModel with dependencies
-    func makeSecureExamViewModel(examSession: ExamSession) -> SecureExamViewModel {
-        return SecureExamViewModel(
-            examSession: examSession,
-            assessmentService: assessmentService
-        )
     }
 }
